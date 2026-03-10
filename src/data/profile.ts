@@ -18,14 +18,22 @@ export type ProjectEntry = {
   subtitle: LText;
   period: LText;
   bullets: LText[];
+  image: string;
+  galleryImages?: string[];
+  demoUrl?: string;
+  repoUrl?: string;
+  projectLinks?: Array<{
+    label: LText;
+    href: string;
+    tone?: "primary" | "ghost";
+  }>;
 };
 
 export const navLabels: Record<string, LText> = {
-  summary: { en: "Summary", zh: "摘要" },
+  about: { en: "About", zh: "關於我" },
+  works: { en: "Works", zh: "作品" },
+  journey: { en: "Journey", zh: "經歷" },
   skills: { en: "Skills", zh: "技能" },
-  experience: { en: "Experience", zh: "工作經歷" },
-  projects: { en: "Projects", zh: "技術專案" },
-  research: { en: "Research/Team", zh: "研究／團隊" },
   contact: { en: "Contact", zh: "聯絡" },
 };
 
@@ -49,10 +57,24 @@ export const profile = {
       en: "UI-focused product builder bridging web, mobile, and Web3 systems.",
       zh: "專注介面體驗的產品開發者，串接 Web、行動端與 Web3 系統。",
     },
+    heroStatement: {
+      en: "Be like engineering is to solve problem.",
+      zh: "工程師是解決問題的。",
+    },
   },
   summary: {
     en: "UI-focused product builder with experience in frontend development, responsive interface design, and interactive systems across web, mobile, and Unity environments. Skilled in React, TypeScript, Kotlin, Unity, C#, and Solidity, with strong attention to usability, clarity, and cross-functional collaboration.",
     zh: "我是一位專注 UI 與產品落地的開發者，具備前端開發、響應式介面設計與互動系統實作經驗，涵蓋 Web、行動端與 Unity 環境。熟悉 React、TypeScript、Kotlin、Unity、C# 與 Solidity，重視可用性、資訊清晰度與跨職能協作。",
+  },
+  aboutBelief: {
+    title: {
+      en: "Future Aspect",
+      zh: "相信未来",
+    },
+    paragraph: {
+      en: "AI is evolving rapidly, and people are progressing in different ways and directions. In this trend, I believe engineers should not be valued only by knowing a specific language, but by being able to build products that truly satisfy users and clients. I don't focus on digging into just one narrow technology; instead, I focus on presenting products in the best possible state and delivering meaningful outcomes. For me, strong engineering is about turning complexity into clear user value, collaborating efficiently with product and design, and iterating quickly based on real feedback. Tools and frameworks will keep changing, but the ability to solve real problems and ship usable products is what stays important.",
+      zh: "AI 發展非常快，大家也都在不同方向持續進步。在這樣的趨勢下，我相信工程師的價值不應該只在於會某一種語言，而是有能力做出真正讓使用者與客戶滿意的產品。我不會只深挖單一技術，而是更重視把產品以最佳狀態呈現出來，並交付有價值的結果。對我來說，工程能力的核心是把複雜問題轉化為清楚可用的使用者價值，並且能與產品、設計和開發夥伴高效率協作，快速迭代。工具與框架會持續變化，但真正不變的是解決真實問題與交付可用產品的能力。",
+    },
   },
   skills: [
     {
@@ -147,6 +169,8 @@ export const profile = {
       name: { en: "Future DAO", zh: "Future DAO" },
       subtitle: { en: "Governance and Smart Contract System", zh: "治理與智慧合約系統" },
       period: { en: "January 2025/2026 - Present", zh: "2025/2026 年 1 月 - 至今" },
+      image: "/placeholders/future-dao.svg",
+      repoUrl: "https://github.com/ycl-2004/Future",
       bullets: [
         {
           en: "Built Solidity smart contracts for membership, utility token, treasury, and governance workflows.",
@@ -166,6 +190,8 @@ export const profile = {
       name: { en: "CryptoPulse", zh: "CryptoPulse" },
       subtitle: { en: "Investment and Analytics Tool", zh: "投資與分析工具" },
       period: { en: "September 2025 - December 2025", zh: "2025 年 9 月 - 2025 年 12 月" },
+      image: "/placeholders/cryptopulse.svg",
+      demoUrl: "https://cryptopulse-production-a190.up.railway.app",
       bullets: [
         {
           en: "Built a full-stack crypto analytics platform for real-time market tracking.",
@@ -185,6 +211,15 @@ export const profile = {
       name: { en: "YC Todo", zh: "YC Todo" },
       subtitle: { en: "macOS Menubar Application", zh: "macOS 選單列應用" },
       period: { en: "December 2025 - February 2026", zh: "2025 年 12 月 - 2026 年 2 月" },
+      image: "/placeholders/yc-todo.svg",
+      galleryImages: ["/project-shots/light.png", "/project-shots/dark.png"],
+      projectLinks: [
+        {
+          label: { en: "Project Folder", zh: "專案資料夾" },
+          href: "https://drive.google.com/drive/u/1/folders/1l72JWhzAjmenkNoi_lEXS9KNUmsrSz11",
+          tone: "primary",
+        },
+      ],
       bullets: [
         {
           en: "Built a native macOS menubar app using Tauri (Rust) and React for local task management.",
@@ -204,18 +239,30 @@ export const profile = {
       name: { en: "Unity Game Design", zh: "Unity 遊戲設計" },
       subtitle: { en: "Game Portfolio", zh: "遊戲作品集" },
       period: { en: "June 2024 - March 2025", zh: "2024 年 6 月 - 2025 年 3 月" },
+      image: "/project-shots/game.png",
+      projectLinks: [
+        {
+          label: { en: "2D", zh: "2D" },
+          href: "https://play.unity.com/en/games/cae09d3a-0ee6-48dc-b80a-395419be1f65/collect-coins",
+          tone: "primary",
+        },
+        {
+          label: { en: "3D", zh: "3D" },
+          href: "https://ycl-2004.github.io/OverCook/",
+        },
+        {
+          label: { en: "Game Portfolio", zh: "遊戲作品集" },
+          href: "https://ycl-2004.itch.io/",
+        },
+      ],
       bullets: [
         {
           en: "Developed and released both 2D and 3D Unity game experiences.",
           zh: "開發並發布 2D 與 3D Unity 遊戲體驗。",
         },
         {
-          en: "Implemented continuous animation, responsive controls, and interactive mechanics.",
+          en: "Implemented continuous animations, responsive character controls, and interactive mechanics.",
           zh: "實作連續動畫、角色控制與互動機制。",
-        },
-        {
-          en: "Improved performance and gameplay responsiveness through C# optimization.",
-          zh: "透過 C# 腳本優化提升效能與遊戲操作回饋。",
         },
       ],
     },

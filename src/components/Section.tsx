@@ -8,7 +8,7 @@ type SectionProps = PropsWithChildren<{
 
 export default function Section({ id, title, subtitle, children }: SectionProps) {
   return (
-    <section id={id} className="section fade-in">
+    <section id={id} className="section">
       <div className="section-head">
         <h2>{title}</h2>
         {subtitle ? <p>{subtitle}</p> : null}

@@ -1,0 +1,14 @@
+<svg width="720" height="1180" viewBox="0 0 720 1180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7E748A"/><stop offset="1" stop-color="#61586B"/></linearGradient></defs>
+  <rect width="720" height="1180" rx="28" fill="url(#g2)"/>
+  <rect x="24" y="24" width="672" height="1132" rx="26" fill="#7A6F86" stroke="#A895B6"/>
+  <text x="54" y="88" fill="#F4EFF8" font-size="54" font-weight="700" font-family="Arial">YC todo</text>
+  <rect x="54" y="132" width="612" height="150" rx="26" fill="#7D7089" stroke="#A895B6"/>
+  <rect x="54" y="302" width="612" height="130" rx="24" fill="#756A80" stroke="#A895B6"/>
+  <rect x="170" y="288" width="380" height="470" rx="30" fill="#6F647A" stroke="#AF9CC0"/>
+  <rect x="54" y="452" width="612" height="80" rx="20" fill="#6E6379" stroke="#A895B6"/>
+  <rect x="54" y="552" width="612" height="88" rx="22" fill="#6E6379" stroke="#A895B6"/>
+  <rect x="54" y="660" width="612" height="88" rx="22" fill="#6E6379" stroke="#A895B6"/>
+  <rect x="54" y="930" width="612" height="82" rx="28" fill="#726680" stroke="#A895B6"/>
+  <text x="54" y="1080" fill="#D7CBE2" font-size="28" font-family="Arial">Replace with your real screenshot 2</text>
+</svg>

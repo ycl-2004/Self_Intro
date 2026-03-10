@@ -6,7 +6,7 @@ type HeaderProps = {
   onLangChange: (lang: Lang) => void;
 };
 
-const navOrder = ["summary", "skills", "experience", "projects", "research", "contact"];
+const navOrder = ["about", "works", "journey", "skills", "contact"];
 
 export default function Header({ lang, onLangChange }: HeaderProps) {
   return (

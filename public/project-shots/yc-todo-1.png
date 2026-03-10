@@ -1,0 +1,10 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="36" fill="#F3E8DC"/>
+  <rect x="90" y="90" width="1020" height="540" rx="24" fill="#FFF9F2"/>
+  <rect x="150" y="160" width="300" height="390" rx="24" fill="#DAB895"/>
+  <rect x="490" y="160" width="560" height="80" rx="14" fill="#EFDCC8"/>
+  <rect x="490" y="260" width="560" height="80" rx="14" fill="#EFDCC8"/>
+  <rect x="490" y="360" width="560" height="80" rx="14" fill="#EFDCC8"/>
+  <rect x="490" y="460" width="560" height="80" rx="14" fill="#EFDCC8"/>
+  <text x="150" y="130" fill="#6F533F" font-family="Arial, sans-serif" font-size="42" font-weight="700">YC Todo</text>
+</svg>
