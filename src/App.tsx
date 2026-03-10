@@ -4,21 +4,30 @@ import Header from "./components/Header";
 import Section from "./components/Section";
 import { Lang, profile, t } from "./data/profile";
 
+function resolveAssetUrl(path: string): string {
+  if (/^https?:\/\//.test(path)) return path;
+  const clean = path.replace(/^\/+/, "");
+  return `${import.meta.env.BASE_URL}${clean}`;
+}
+
 function ProjectPreviewImage({ demoUrl, fallbackImage, alt }: { demoUrl?: string; fallbackImage: string; alt: string }) {
   const [failed, setFailed] = useState(false);
   const normalized = demoUrl?.replace(/\/+$/, "") ?? "";
   const mshot = normalized ? `https://s.wordpress.com/mshots/v1/${encodeURIComponent(`${normalized}/`)}?w=1400` : "";
+  const fallbackSrc = resolveAssetUrl(fallbackImage);
   const previewSrc =
     normalized && !failed
       ? mshot
-      : fallbackImage;
+      : fallbackSrc;
 
   return <img src={previewSrc} alt={alt} loading="lazy" onError={() => setFailed(true)} />;
 }
 
 function FallbackImage({ src, fallback, alt }: { src: string; fallback: string; alt: string }) {
   const [errored, setErrored] = useState(false);
-  return <img src={errored ? fallback : src} alt={alt} loading="lazy" onError={() => setErrored(true)} />;
+  const primary = resolveAssetUrl(src);
+  const fallbackSrc = resolveAssetUrl(fallback);
+  return <img src={errored ? fallbackSrc : primary} alt={alt} loading="lazy" onError={() => setErrored(true)} />;
 }
 
 export default function App() {
