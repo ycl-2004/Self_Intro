@@ -4,24 +4,24 @@
   --font-en: "Manrope", "Segoe UI", "Helvetica Neue", sans-serif;
   --font-zh: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
 
-  --color-bg: #f6f0e7;
-  --color-bg-soft: #f9f5ef;
-  --color-surface: #fffaf4;
-  --color-surface-2: #f3e8db;
-  --color-text: #3a2f28;
-  --color-text-soft: #635348;
-  --color-accent: #a5795b;
-  --color-accent-strong: #8d6347;
-  --color-border: #ddcdbd;
-  --color-chip: #efe2d4;
+  --color-bg: #f4efe8;
+  --color-bg-soft: #f8f4ee;
+  --color-surface: #fcfaf7;
+  --color-surface-2: #f2ebe2;
+  --color-text: #2f2822;
+  --color-text-soft: #5f5347;
+  --color-accent: #8f6548;
+  --color-accent-strong: #744e35;
+  --color-border: #d9ccbf;
+  --color-chip: #ede2d6;
 
-  --shadow-sm: 0 8px 24px rgba(84, 56, 39, 0.08);
-  --shadow-md: 0 14px 36px rgba(84, 56, 39, 0.12);
-  --shadow-lg: 0 24px 60px rgba(84, 56, 39, 0.15);
+  --shadow-sm: 0 2px 6px rgba(84, 56, 39, 0.04);
+  --shadow-md: 0 6px 14px rgba(84, 56, 39, 0.06);
+  --shadow-lg: 0 12px 24px rgba(84, 56, 39, 0.08);
 
-  --radius-sm: 12px;
-  --radius-md: 18px;
-  --radius-lg: 26px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
 
   --space-1: 0.4rem;
   --space-2: 0.7rem;
@@ -36,5 +36,5 @@
   --motion-slow: 420ms;
   --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
 
-  --max-width: 1120px;
+  --max-width: 1200px;
 }
