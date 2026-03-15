@@ -567,19 +567,6 @@ export default function App() {
             </h1>
             <p className="hero-tagline">{t(lang, profile.basics.heroTagline)}</p>
             <p className="hero-intro">{profile.summary[lang]}</p>
-            <p className="hero-statement">{t(lang, profile.basics.heroStatement)}</p>
-
-            <div className="hero-metrics" aria-label={lang === "zh" ? "快速摘要" : "Quick summary"}>
-              <p>
-                <strong>{profile.projects.length}</strong> {lang === "zh" ? "個專案" : "projects"}
-              </p>
-              <p>
-                <strong>{profile.experience.length + 2}</strong> {lang === "zh" ? "段經歷" : "experience blocks"}
-              </p>
-              <p>
-                <strong>{profile.skills.length}</strong> {lang === "zh" ? "組技能" : "skill groups"}
-              </p>
-            </div>
 
             <div className="hero-signals" aria-label={lang === "zh" ? "能力標籤" : "Capabilities"}>
               {heroSignals.map((signal, index) => (
@@ -614,17 +601,14 @@ export default function App() {
             <div className="hero-panel hero-panel-primary">
               <p className="hero-panel-label">{lang === "zh" ? "目前定位" : "Current Positioning"}</p>
               <div className="identity-block">
-                <p>{profile.basics.pronouns}</p>
                 <p>{profile.basics.location[lang]}</p>
+                <p>{lang === "zh" ? "可配合實習與產品工程職缺" : "Open to internships and product engineering roles"}</p>
               </div>
               <div className="identity-links">
                 <a href={`mailto:${profile.basics.email}`}>{profile.basics.email}</a>
-                <a href={`tel:${profile.basics.phone.replace(/\s+/g, "")}`}>{profile.basics.phone}</a>
-                {profile.basics.links.map((link) => (
-                  <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
-                    {link.label}
-                  </a>
-                ))}
+                <a href={profile.basics.links[0].href} target="_blank" rel="noreferrer">
+                  {profile.basics.links[0].label}
+                </a>
               </div>
               <button type="button" className="mini-action" onClick={copyEmail}>
                 {emailCopied

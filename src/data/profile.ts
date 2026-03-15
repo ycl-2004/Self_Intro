@@ -63,8 +63,8 @@ export const profile = {
     },
   },
   summary: {
-    en: "UI-focused product builder with experience in frontend development, responsive interface design, and interactive systems across web, mobile, and Unity environments. Skilled in React, TypeScript, Kotlin, Unity, C#, and Solidity, with strong attention to usability, clarity, and cross-functional collaboration.",
-    zh: "我是一位專注 UI 與產品落地的開發者，具備前端開發、響應式介面設計與互動系統實作經驗，涵蓋 Web、行動端與 Unity 環境。熟悉 React、TypeScript、Kotlin、Unity、C# 與 Solidity，重視可用性、資訊清晰度與跨職能協作。",
+    en: "I design and build product interfaces that make technical systems feel clear, usable, and trustworthy.",
+    zh: "我設計並實作產品介面，讓技術系統變得更清楚、可用且值得信任。",
   },
   aboutBelief: {
     title: {
