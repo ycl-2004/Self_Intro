@@ -1,5 +1,6 @@
 import { Lang, navLabels, profile, t } from "../data/profile";
 import LanguageToggle from "./LanguageToggle";
+import NameLockup from "./NameLockup";
 
 type HeaderProps = {
   lang: Lang;
@@ -13,10 +14,17 @@ export default function Header({ lang, onLangChange, activeSection }: HeaderProp
   return (
     <header className="site-header">
       <a className="brand-block" href="#top" aria-label={lang === "zh" ? "回到頁首" : "Back to top"}>
-        <p className="name-line">{t(lang, profile.basics.fullName)}</p>
-        <p className="meta-line">
-          {profile.basics.pronouns} · {profile.basics.location[lang]}
+        <p className="name-line">
+          <NameLockup />
         </p>
+        <div className="brand-meta-row">
+          <p className="meta-line">
+            {profile.basics.pronouns} · {profile.basics.location[lang]}
+          </p>
+          <div className="lang-toggle-mobile">
+            <LanguageToggle lang={lang} onChange={onLangChange} />
+          </div>
+        </div>
       </a>
       <nav className="top-nav" aria-label="Primary">
         {navOrder.map((id) => (
@@ -25,7 +33,9 @@ export default function Header({ lang, onLangChange, activeSection }: HeaderProp
           </a>
         ))}
       </nav>
-      <LanguageToggle lang={lang} onChange={onLangChange} />
+      <div className="lang-toggle-desktop">
+        <LanguageToggle lang={lang} onChange={onLangChange} />
+      </div>
     </header>
   );
 }

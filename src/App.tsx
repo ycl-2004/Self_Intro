@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Card from "./components/Card";
 import Header from "./components/Header";
+import NameLockup from "./components/NameLockup";
 import Section from "./components/Section";
 import { Lang, profile, t, ProjectEntry } from "./data/profile";
 
@@ -180,6 +181,11 @@ export default function App() {
   }, [filteredProjects, activeWorkKey]);
 
   const activeProjectIndex = filteredProjects.findIndex((project) => project.name.en === activeWorkKey);
+  const activeProject = activeProjectIndex >= 0 ? filteredProjects[activeProjectIndex] : filteredProjects[0];
+
+  const heroSignals = lang === "zh"
+    ? ["React / TypeScript", "產品與介面設計", "Web3 系統", "Web + Mobile"]
+    : ["React / TypeScript", "Product UI Design", "Web3 Systems", "Web + Mobile"];
 
   const moveActiveProject = (direction: "prev" | "next") => {
     if (filteredProjects.length === 0) return;
@@ -214,11 +220,16 @@ export default function App() {
       <main className="main-layout">
         <section className="hero-shell reveal" id="top" aria-labelledby="hero-heading">
           <div className="hero-main">
-            <p className="hero-kicker">{lang === "zh" ? "你好，我是" : "Hello, I'm"}</p>
-            <h1 id="hero-heading">{t(lang, profile.basics.fullName)}</h1>
+            <div className="hero-band">
+              <p className="hero-kicker">{lang === "zh" ? "產品工程 / 介面系統 / 可交付成果" : "Product Engineering / Interface Systems / Delivery"}</p>
+              <span className="hero-availability">{lang === "zh" ? "開放合作與工作機會" : "Open to internships and product roles"}</span>
+            </div>
+            <h1 id="hero-heading">
+              <NameLockup stackedOnMobile />
+            </h1>
             <p className="hero-tagline">{t(lang, profile.basics.heroTagline)}</p>
-            <p className="hero-statement">{t(lang, profile.basics.heroStatement)}</p>
             <p className="hero-intro">{profile.summary[lang]}</p>
+            <p className="hero-statement">{t(lang, profile.basics.heroStatement)}</p>
 
             <div className="hero-metrics" aria-label={lang === "zh" ? "快速摘要" : "Quick summary"}>
               <p>
@@ -232,6 +243,14 @@ export default function App() {
               </p>
             </div>
 
+            <div className="hero-signals" aria-label={lang === "zh" ? "能力標籤" : "Capabilities"}>
+              {heroSignals.map((signal) => (
+                <span key={signal} className="hero-signal">
+                  {signal}
+                </span>
+              ))}
+            </div>
+
             <div className="hero-actions">
               <a className="btn-primary" href="#works">
                 {lang === "zh" ? "查看作品" : "View Work"}
@@ -243,30 +262,47 @@ export default function App() {
           </div>
 
           <aside className="hero-aside" aria-label={lang === "zh" ? "聯絡資訊" : "Contact details"}>
-            <div className="identity-block">
-              <p>{profile.basics.pronouns}</p>
-              <p>{profile.basics.location[lang]}</p>
+            <div className="hero-panel hero-panel-primary">
+              <p className="hero-panel-label">{lang === "zh" ? "目前定位" : "Current Positioning"}</p>
+              <div className="identity-block">
+                <p>{profile.basics.pronouns}</p>
+                <p>{profile.basics.location[lang]}</p>
+              </div>
+              <div className="identity-links">
+                <a href={`mailto:${profile.basics.email}`}>{profile.basics.email}</a>
+                <a href={`tel:${profile.basics.phone.replace(/\s+/g, "")}`}>{profile.basics.phone}</a>
+                {profile.basics.links.map((link) => (
+                  <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+              <button type="button" className="mini-action" onClick={copyEmail}>
+                {emailCopied
+                  ? lang === "zh"
+                    ? "已複製 Email"
+                    : "Email Copied"
+                  : lang === "zh"
+                    ? "複製 Email"
+                    : "Copy Email"}
+              </button>
             </div>
 
-            <div className="identity-links">
-              <a href={`mailto:${profile.basics.email}`}>{profile.basics.email}</a>
-              <a href={`tel:${profile.basics.phone.replace(/\s+/g, "")}`}>{profile.basics.phone}</a>
-              {profile.basics.links.map((link) => (
-                <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
-                  {link.label}
-                </a>
-              ))}
+            <div className="hero-panel hero-panel-accent">
+              <p className="hero-panel-label">{lang === "zh" ? "精選作品" : "Featured Work"}</p>
+              {activeProject ? (
+                <>
+                  <h3>{activeProject.name[lang]}</h3>
+                  <p>{activeProject.subtitle[lang]}</p>
+                  <span className="hero-panel-meta">
+                    {activeProjectIndex + 1} / {filteredProjects.length || profile.projects.length}
+                  </span>
+                  <a className="text-link" href="#works">
+                    {lang === "zh" ? "查看專案詳情" : "View project details"}
+                  </a>
+                </>
+              ) : null}
             </div>
-
-            <button type="button" className="mini-action" onClick={copyEmail}>
-              {emailCopied
-                ? lang === "zh"
-                  ? "已複製 Email"
-                  : "Email Copied"
-                : lang === "zh"
-                  ? "複製 Email"
-                  : "Copy Email"}
-            </button>
           </aside>
         </section>
 
@@ -276,17 +312,17 @@ export default function App() {
           subtitle={lang === "zh" ? "產品思維導向的工程實作者，重視可用性、清晰度與交付品質。" : "Product-minded builder focused on usability, clarity, and reliable delivery."}
         >
           <div className="about-grid reveal">
-            <Card className="about-belief">
+            <Card className="about-belief about-card-emphasis">
               <h3>{t(lang, profile.aboutBelief.title)}</h3>
               <p>{t(lang, profile.aboutBelief.paragraph)}</p>
             </Card>
 
-            <Card>
+            <Card className="about-card-focus">
               <h3>{lang === "zh" ? "目前定位" : "Current Focus"}</h3>
               <p>{profile.summary[lang]}</p>
             </Card>
 
-            <Card>
+            <Card className="about-card-education">
               <h3>{lang === "zh" ? "教育背景" : "Education"}</h3>
               <p>{profile.education.school[lang]}</p>
               <p>{profile.education.degree[lang]}</p>
@@ -348,6 +384,7 @@ export default function App() {
             <div className="works-grid reveal">
               {filteredProjects.map((project) => {
                 const active = activeWorkKey === project.name.en;
+                const category = categorizeProject(project);
                 return (
                   <article
                     key={project.name.en}
@@ -375,6 +412,7 @@ export default function App() {
 
                     <div className="project-body">
                       <div className="entry-head">
+                        <span className="project-category">{filterLabels[category][lang]}</span>
                         <h3>{project.name[lang]}</h3>
                         <p>{project.subtitle[lang]}</p>
                         <time>{project.period[lang]}</time>
@@ -496,7 +534,7 @@ export default function App() {
 
         <Section id="contact" title={lang === "zh" ? "聯絡方式" : "Contact"}>
           <Card className="contact-card reveal">
-            <p>
+            <p className="contact-lead">
               {lang === "zh"
                 ? "想聊實習、全職機會、產品合作，或一起做有趣的專案，歡迎直接聯絡我。"
                 : "Open to internships, full-time opportunities, and product collaborations."}
