@@ -42,6 +42,26 @@ function getPrimaryProjectHref(project: ProjectEntry): string | undefined {
   return project.projectLinks?.[0]?.href ?? project.demoUrl ?? project.repoUrl;
 }
 
+function projectToSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const projectSlugMap = new Map(profile.projects.map((project) => [projectToSlug(project.name.en), project.name.en]));
+
+function getInitialProjectKey(): string {
+  const fallback = profile.projects[0]?.name.en ?? "";
+  if (typeof window === "undefined") return fallback;
+
+  const params = new URLSearchParams(window.location.search);
+  const projectParam = params.get("project");
+  if (!projectParam) return fallback;
+
+  return projectSlugMap.get(projectParam) ?? profile.projects.find((project) => project.name.en === projectParam)?.name.en ?? fallback;
+}
+
 export default function App() {
   const [lang, setLang] = useState<Lang>(() => {
     const cached = localStorage.getItem("site-lang");
@@ -50,7 +70,8 @@ export default function App() {
   const [activeSection, setActiveSection] = useState("about");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showToTop, setShowToTop] = useState(false);
-  const [activeWorkKey, setActiveWorkKey] = useState(profile.projects[0]?.name.en ?? "");
+  const [activeWorkKey, setActiveWorkKey] = useState(getInitialProjectKey);
+  const [activeSkillTag, setActiveSkillTag] = useState<string | null>(null);
   const [emailCopied, setEmailCopied] = useState(false);
   const [activeSignal, setActiveSignal] = useState(0);
   const [activeProof, setActiveProof] = useState(0);
@@ -154,6 +175,15 @@ export default function App() {
   useEffect(() => {
     document.title = title;
   }, [title]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !activeWorkKey) return;
+    const params = new URLSearchParams(window.location.search);
+    params.set("project", projectToSlug(activeWorkKey));
+    const query = params.toString();
+    const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+    window.history.replaceState(null, "", nextUrl);
+  }, [activeWorkKey]);
 
   const filterLabels: Record<ProjectFilter, { en: string; zh: string }> = {
     all: { en: "All", zh: "全部" },
@@ -432,6 +462,7 @@ export default function App() {
 
   const activeProjectIndex = spotlightProjects.findIndex((project) => project.name.en === activeWorkKey);
   const activeProject = activeProjectIndex >= 0 ? spotlightProjects[activeProjectIndex] : spotlightProjects[0];
+  const activeProjectProgress = spotlightProjects.length > 0 ? ((activeProjectIndex >= 0 ? activeProjectIndex + 1 : 1) / spotlightProjects.length) * 100 : 0;
 
   const heroSignals = [
     {
@@ -468,24 +499,32 @@ export default function App() {
     },
   ];
 
+  const activateProject = (projectKey: string, options?: { scroll?: boolean; skill?: string | null }) => {
+    const exists = spotlightProjects.some((project) => project.name.en === projectKey);
+    if (!exists) return;
+
+    setActiveWorkKey(projectKey);
+    setActiveSkillTag(options?.skill ?? null);
+
+    if (options?.scroll) {
+      window.requestAnimationFrame(() => {
+        worksSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  };
+
   const moveActiveProject = (direction: "prev" | "next") => {
     if (spotlightProjects.length === 0) return;
     const start = activeProjectIndex >= 0 ? activeProjectIndex : 0;
     const delta = direction === "next" ? 1 : -1;
     const nextIndex = (start + delta + spotlightProjects.length) % spotlightProjects.length;
-    setActiveWorkKey(spotlightProjects[nextIndex].name.en);
-    window.requestAnimationFrame(() => {
-      worksSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
+    activateProject(spotlightProjects[nextIndex].name.en, { scroll: true, skill: null });
   };
 
   const jumpToProjectBySkill = (skill: string) => {
     const targetProject = skillProjectMap[skill];
     if (!targetProject) return;
-    setActiveWorkKey(targetProject);
-    window.requestAnimationFrame(() => {
-      worksSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
+    activateProject(targetProject, { scroll: true, skill });
   };
 
   const copyEmail = async () => {
@@ -607,9 +646,18 @@ export default function App() {
                   <span className="hero-panel-meta">
                     {activeProjectIndex + 1} / {spotlightProjects.length || profile.projects.length}
                   </span>
-                  <a className="text-link" href="#works">
-                    {lang === "zh" ? "查看專案詳情" : "View project details"}
-                  </a>
+                  <div className="hero-project-pills" aria-label={lang === "zh" ? "快速切換作品" : "Quick project switch"}>
+                    {spotlightProjects.map((project) => (
+                      <button
+                        key={project.name.en}
+                        type="button"
+                        className={`hero-project-pill ${project.name.en === activeProject.name.en ? "active" : ""}`}
+                        onClick={() => activateProject(project.name.en, { scroll: true, skill: null })}
+                      >
+                        {project.name[lang]}
+                      </button>
+                    ))}
+                  </div>
                 </>
               ) : null}
             </div>
@@ -681,7 +729,7 @@ export default function App() {
                     key={project.name.en}
                     type="button"
                     className={`case-study-tab ${active ? "active" : ""}`}
-                    onClick={() => setActiveWorkKey(project.name.en)}
+                    onClick={() => activateProject(project.name.en, { skill: null })}
                   >
                     <span className="case-study-index">{String(index + 1).padStart(2, "0")}</span>
                     <span className="case-study-tab-copy">
@@ -739,6 +787,20 @@ export default function App() {
                     <h3>{activeProject.name[lang]}</h3>
                     <p>{activeProject.subtitle[lang]}</p>
                     <time>{activeProject.period[lang]}</time>
+                    {activeSkillTag ? (
+                      <div className="case-study-source">
+                        <span>{lang === "zh" ? "由能力標籤導向" : "Matched from capability"}</span>
+                        <strong>{activeSkillTag}</strong>
+                      </div>
+                    ) : null}
+                    <div className="case-study-progress" aria-label={lang === "zh" ? "作品進度" : "Project progress"}>
+                      <span>
+                        {String(activeProjectIndex + 1).padStart(2, "0")} / {String(spotlightProjects.length).padStart(2, "0")}
+                      </span>
+                      <div className="case-study-progress-track" aria-hidden="true">
+                        <span style={{ width: `${activeProjectProgress}%` }} />
+                      </div>
+                    </div>
                   </div>
 
                   <div className="case-study-metrics">
@@ -814,6 +876,9 @@ export default function App() {
                       {lang === "zh" ? "切換作品後會自動回到作品區開頭，重新看到完整專案上下文。" : "Switching projects auto-scrolls back to the start of the work section for full context."}
                     </span>
 
+                    <button type="button" className="btn-ghost case-study-nav" onClick={() => moveActiveProject("prev")}>
+                      {lang === "zh" ? "上一個作品" : "Previous Project"}
+                    </button>
                     <button type="button" className="btn-ghost case-study-nav" onClick={() => moveActiveProject("next")}>
                       {lang === "zh" ? "下一個作品" : "Next Project"}
                     </button>
@@ -906,7 +971,12 @@ export default function App() {
                 <p>{group.text[lang]}</p>
                 <div className="chip-list">
                   {group.tags.map((item) => (
-                    <button key={item} type="button" className="chip chip-action" onClick={() => jumpToProjectBySkill(item)}>
+                    <button
+                      key={item}
+                      type="button"
+                      className={`chip chip-action ${activeSkillTag === item ? "active" : ""}`}
+                      onClick={() => jumpToProjectBySkill(item)}
+                    >
                       {item}
                     </button>
                   ))}

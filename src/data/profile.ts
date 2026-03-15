@@ -58,8 +58,8 @@ export const profile = {
       zh: "專注介面體驗的產品開發者，串接 Web、行動端與 Web3 系統。",
     },
     heroStatement: {
-      en: "Be like engineering is to solve problem.",
-      zh: "工程師是解決問題的。",
+      en: "Good engineering turns complexity into clear, usable outcomes.",
+      zh: "好的工程，是把複雜問題轉成清楚且可用的成果。",
     },
   },
   summary: {
@@ -68,8 +68,8 @@ export const profile = {
   },
   aboutBelief: {
     title: {
-      en: "Future Aspect",
-      zh: "相信未来",
+      en: "Long-Term View",
+      zh: "長期視角",
     },
     paragraph: {
       en: "AI is evolving rapidly, and people are progressing in different ways and directions. In this trend, I believe engineers should not be valued only by knowing a specific language, but by being able to build products that truly satisfy users and clients. I don't focus on digging into just one narrow technology; instead, I focus on presenting products in the best possible state and delivering meaningful outcomes. For me, strong engineering is about turning complexity into clear user value, collaborating efficiently with product and design, and iterating quickly based on real feedback. Tools and frameworks will keep changing, but the ability to solve real problems and ship usable products is what stays important.",
@@ -168,7 +168,7 @@ export const profile = {
     {
       name: { en: "Future DAO", zh: "Future DAO" },
       subtitle: { en: "Governance and Smart Contract System", zh: "治理與智慧合約系統" },
-      period: { en: "January 2025/2026 - Present", zh: "2025/2026 年 1 月 - 至今" },
+      period: { en: "January 2025 - Present", zh: "2025 年 1 月 - 至今" },
       image: "/placeholders/future-dao.svg",
       repoUrl: "https://github.com/ycl-2004/Future",
       bullets: [
