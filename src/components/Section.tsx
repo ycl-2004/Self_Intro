@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, forwardRef } from "react";
 
 type SectionProps = PropsWithChildren<{
   id: string;
@@ -14,9 +14,9 @@ const sectionEyebrows: Record<string, string> = {
   contact: "Connect",
 };
 
-export default function Section({ id, title, subtitle, children }: SectionProps) {
+const Section = forwardRef<HTMLElement, SectionProps>(function Section({ id, title, subtitle, children }, ref) {
   return (
-    <section id={id} className="section">
+    <section id={id} className="section" ref={ref}>
       <div className="section-head">
         <p className="section-eyebrow">{sectionEyebrows[id] ?? "Section"}</p>
         <h2>{title}</h2>
@@ -25,4 +25,6 @@ export default function Section({ id, title, subtitle, children }: SectionProps)
       <div className="section-content">{children}</div>
     </section>
   );
-}
+});
+
+export default Section;
